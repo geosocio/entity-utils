@@ -1,6 +1,6 @@
 <?php
 
-namespace GeoSocio\Core\Entity;
+namespace GeoSocio\EntityUtils;
 
 use Doctrine\ORM\Mapping as ORM;
 
