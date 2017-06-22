@@ -195,7 +195,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      */
     public function getInstance(string $key, string $class, $default = null)
     {
-        return $this->getSingleInstance($this->get($key), $default);
+        return $this->getSingleInstance($this->get($key), $class, $default);
     }
 
     /**
