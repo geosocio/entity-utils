@@ -193,7 +193,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      * @param mixed $data
      * @param string $class
      */
-    protected function getInstance(string $key, string $class, $default = null)
+    public function getInstance(string $key, string $class, $default = null)
     {
         return $this->getSingleInstance($this->get($key), $default);
     }
