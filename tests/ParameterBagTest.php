@@ -236,6 +236,9 @@ class ParameterBagTest extends TestCase
     {
         $array = [
             new \stdClass(),
+            [
+                'property' => 'value',
+            ],
             new \Exception(),
         ];
         $collection = new ArrayCollection($array);
@@ -250,11 +253,11 @@ class ParameterBagTest extends TestCase
 
         $result = $bag->getCollection('array', \stdClass::class, $default);
         $this->assertInstanceOf(Collection::class, $result);
-        $this->assertCount(1, $result);
+        $this->assertCount(2, $result);
 
         $result = $bag->getCollection('collection', \stdClass::class, $default);
         $this->assertInstanceOf(Collection::class, $result);
-        $this->assertCount(1, $result);
+        $this->assertCount(2, $result);
 
         $result = $bag->getCollection('nokey', \stdClass::class, $default);
         $this->assertInstanceOf(Collection::class, $result);
