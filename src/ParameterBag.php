@@ -207,16 +207,16 @@ class ParameterBag implements \IteratorAggregate, \Countable
     public function getCollection(string $key, string $class, Collection $default = null) : Collection
     {
         $value = $this->get($key);
-        if ($value instanceof Collection) {
-            return $value;
-        } elseif (is_array($value)) {
-            $value = array_map(function ($item) use ($class) {
-                return $this->getSingleInstance($item, $class);
-            }, $value);
-            $value = array_filter($value, function ($item) use ($class) {
+        if ($value instanceof Collection || is_array($value)) {
+            if (is_array($value)) {
+                $value = new ArrayCollection($value);
+            }
+
+            return $value->map(function ($item) use ($class) {
+                return $this->getSingleInstance($item, $class, false);
+            })->filter(function ($item) use ($class) {
                 return $item instanceof $class;
             });
-            return new ArrayCollection($value);
         } else {
             return $default;
         }

@@ -2,6 +2,8 @@
 
 namespace GeoSocio\Tests\EntityUtils;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use GeoSocio\EntityUtils\ParameterBag;
 use PHPUnit\Framework\TestCase;
 
@@ -228,5 +230,34 @@ class ParameterBagTest extends TestCase
         $this->assertSame($object, $bag->getInstance('object', \stdClass::class, $default));
         $this->assertSame($default, $bag->getInstance('object', \Exception::class, $default));
         $this->assertSame($default, $bag->getInstance('nokey', \stdClass::class, $default));
+    }
+
+    public function testGetCollection()
+    {
+        $array = [
+            new \stdClass(),
+            new \Exception(),
+        ];
+        $collection = new ArrayCollection($array);
+        $data = [
+            'array' => $array,
+            'collection' => $collection,
+        ];
+
+        $bag = new ParameterBag($data);
+
+        $default = new ArrayCollection();
+
+        $result = $bag->getCollection('array', \stdClass::class, $default);
+        $this->assertInstanceOf(Collection::class, $result);
+        $this->assertCount(1, $result);
+
+        $result = $bag->getCollection('collection', \stdClass::class, $default);
+        $this->assertInstanceOf(Collection::class, $result);
+        $this->assertCount(1, $result);
+
+        $result = $bag->getCollection('nokey', \stdClass::class, $default);
+        $this->assertInstanceOf(Collection::class, $result);
+        $this->assertCount(0, $result);
     }
 }
