@@ -67,4 +67,41 @@ class ParameterBagTest extends TestCase
         $this->assertEquals('value', $bag->get('key'));
         $this->assertEquals('default', $bag->get('nokey', 'default'));
     }
+
+    public function testSet()
+    {
+        $data = [
+            'key' => 'value',
+        ];
+        $bag = new ParameterBag($data);
+
+        $bag->set('key2', 'value2');
+
+        $this->assertEquals('value2', $bag->get('key2'));
+    }
+
+    public function testHas()
+    {
+        $data = [
+            'key' => 'value',
+        ];
+        $bag = new ParameterBag($data);
+
+        $this->assertTrue($bag->has('key'));
+        $this->assertFalse($bag->has('nokey'));
+    }
+
+    public function testRemove()
+    {
+        $data = [
+            'key' => 'value',
+        ];
+        $bag = new ParameterBag($data);
+
+        $this->assertTrue($bag->has('key'));
+
+        $bag->remove('key');
+
+        $this->assertFalse($bag->has('key'));
+    }
 }
