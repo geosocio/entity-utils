@@ -19,3 +19,4 @@ branches:
         - develop
 notifications:
   irc: "chat.freenode.net#geosocio"
+  email: false

@@ -33,7 +33,7 @@
         ],
         "test-coverage": [
             "@lint",
-            "phpunit -v --coverage-clover=coverage.clover"
+            "phpunit -v --coverage-clover coverage.clover"
         ]
     }
 }
