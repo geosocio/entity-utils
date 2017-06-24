@@ -19,6 +19,6 @@ class CreatedTraitTest extends TestCase
         $created = $this->getObjectForTrait(CreatedTrait::class);
         $datetime = new \DateTime();
         $created->setCreated($datetime);
-        $this->assertEquals($datetime, $created->getCreated());
+        $this->assertSame($datetime, $created->getCreated());
     }
 }
