@@ -1,0 +1,21 @@
+language: php
+php: 7.1
+addons:
+  apt:
+    packages:
+        - uuid-dev
+before_install:
+    - "yes '' | pecl install uuid"
+install:
+    - composer install
+script:
+    - composer test-coverage
+after_script:
+    - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
+    - travis_retry php coveralls.phar -v
+branches:
+    only:
+        - master
+        - develop
+notifications:
+  irc: "chat.freenode.net#geosocio"
