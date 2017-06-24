@@ -210,4 +210,23 @@ class ParameterBagTest extends TestCase
         $bag = new ParameterBag();
         $this->assertEquals(0, $bag->count());
     }
+
+    public function testGetInstance()
+    {
+        $object = new \stdClass();
+        $object->id = 'real';
+
+        $data = [
+            'object' => $object,
+        ];
+        $bag = new ParameterBag($data);
+
+        $default = new \stdClass();
+        $default->id = 'default';
+
+        $this->assertSame($object, $bag->get('object', $default));
+        $this->assertSame($object, $bag->getInstance('object', \stdClass::class, $default));
+        $this->assertSame($default, $bag->getInstance('object', \Exception::class, $default));
+        $this->assertSame($default, $bag->getInstance('nokey', \stdClass::class, $default));
+    }
 }
