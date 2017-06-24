@@ -1,4 +1,4 @@
-# Entity Utilities
+# Entity Utilities [![Build Status](https://travis-ci.org/geosocio/entity-utils.svg?branch=develop)](https://travis-ci.org/geosocio/entity-utils) [![Coverage Status](https://coveralls.io/repos/github/geosocio/entity-utils/badge.svg?branch=develop)](https://coveralls.io/github/geosocio/entity-utils?branch=develop)  
 Provides simply Doctrine Entity Utilities.
 
 ## Parameter Bag
