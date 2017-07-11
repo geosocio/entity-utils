@@ -1,13 +1,19 @@
 language: php
 php: 7.1
+matrix:
+  include:
+    -
+      install:
+          - composer update --prefer-lowest
+    -
+      install:
+          - composer update
 addons:
   apt:
     packages:
         - uuid-dev
 before_install:
     - "yes '' | pecl install uuid"
-install:
-    - composer install
 script:
     - composer test-coverage
 after_script:
