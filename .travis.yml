@@ -1,24 +1,26 @@
 language: php
 php: 7.1
-matrix:
-  include:
-    -
-      install:
-          - composer update --prefer-lowest
-    -
-      install:
-          - composer update
 addons:
   apt:
     packages:
         - uuid-dev
 before_install:
     - "yes '' | pecl install uuid"
-script:
-    - composer test-coverage
-after_script:
-    - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
-    - travis_retry php coveralls.phar -v
+matrix:
+  include:
+    -
+      install:
+          - composer update --prefer-lowest
+      script:
+          - composer test
+    -
+      install:
+          - composer update
+      script:
+          - composer test-coverage
+      after_script:
+          - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
+          - travis_retry php coveralls.phar -v
 branches:
     only:
         - master
