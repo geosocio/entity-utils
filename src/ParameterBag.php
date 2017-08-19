@@ -121,9 +121,9 @@ class ParameterBag implements \IteratorAggregate, \Countable
      * Returns the parameter value only if it is an int.
      *
      * @param string $key     The parameter key
-     * @param int    $default The default value if the parameter key does not exist
+     * @param int|null    $default The default value if the parameter key does not exist
      *
-     * @return int The filtered value
+     * @return int|null The filtered value
      */
     public function getInt(string $key, int $default = null) :? int
     {
@@ -132,10 +132,24 @@ class ParameterBag implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Returns the parameter value only if it is an array of ints.
+     *
+     * @param string $key     The parameter key
+     * @param array|null $default The default value if the parameter key does not exist
+     *
+     * @return array|null The filtered value
+     */
+    public function getIntArray(string $key, array $default = null) :? array
+    {
+        $value = $this->get($key);
+        return is_array($value) ? array_filter($value, 'is_int') : $default;
+    }
+
+    /**
      * Returns the parameter value only if it is a boolean.
      *
      * @param string $key     The parameter key
-     * @param bool  $default The default value if the parameter key does not exist
+     * @param bool|null  $default The default value if the parameter key does not exist
      *
      * @return bool The filtered value
      */
@@ -146,12 +160,26 @@ class ParameterBag implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Returns the parameter value only if it is an array of bools.
+     *
+     * @param string $key     The parameter key
+     * @param array|null $default The default value if the parameter key does not exist
+     *
+     * @return array|null The filtered value
+     */
+    public function getBooleanArray(string $key, array $default = null) :? array
+    {
+        $value = $this->get($key);
+        return is_array($value) ? array_filter($value, 'is_bool') : $default;
+    }
+
+    /**
      * Returns the parameter value only if it is a string.
      *
      * @param string $key     The parameter key
-     * @param mixed  $default The default value if the parameter key does not exist
+     * @param string|null  $default The default value if the parameter key does not exist
      *
-     * @return bool The filtered value
+     * @return string|null The filtered value
      */
     public function getString(string $key, string $default = null) :? string
     {
@@ -160,10 +188,24 @@ class ParameterBag implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Returns the parameter value only if it is an array of strings.
+     *
+     * @param string $key     The parameter key
+     * @param array|null $default The default value if the parameter key does not exist
+     *
+     * @return array|null The filtered value
+     */
+    public function getStringArray(string $key, array $default = null) :? array
+    {
+        $value = $this->get($key);
+        return is_array($value) ? array_filter($value, 'is_string') : $default;
+    }
+
+    /**
      * Returns the parameter value only if it is an array
      *
      * @param string $key     The parameter key
-     * @param mixed  $default The default value if the parameter key does not exist
+     * @param array|null  $default The default value if the parameter key does not exist
      *
      * @return bool The filtered value
      */
@@ -177,9 +219,9 @@ class ParameterBag implements \IteratorAggregate, \Countable
      * Returns the parameter value only if it is a valid uuid.
      *
      * @param string $key     The parameter key
-     * @param mixed  $default The default value if the parameter key does not exist
+     * @param string|null  $default The default value if the parameter key does not exist
      *
-     * @return bool The filtered value
+     * @return string|null The filtered value
      */
     public function getUuid(string $key, string $default = null) :? string
     {
@@ -188,10 +230,25 @@ class ParameterBag implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Returns the parameter value only if it is an array of valid uuids.
+     *
+     * @param string $key     The parameter key
+     * @param array|null $default The default value if the parameter key does not exist
+     *
+     * @return array|null The filtered value
+     */
+    public function getUuidArray(string $key, array $default = null) :? array
+    {
+        $value = $this->get($key);
+        return is_array($value) ? array_filter($value, 'uuid_is_valid') : $default;
+    }
+
+    /**
      * Gets a single item from input.
      *
-     * @param mixed $data
+     * @param string $key
      * @param string $class
+     * @param mixed $default
      */
     public function getInstance(string $key, string $class, $default = null)
     {
@@ -201,8 +258,11 @@ class ParameterBag implements \IteratorAggregate, \Countable
     /**
      * Gets a single item from input.
      *
-     * @param mixed $data
+     * @param string $key
      * @param string $class
+     * @param Collection|null $default
+     *
+     * @return Collection
      */
     public function getCollection(string $key, string $class, Collection $default = null) : Collection
     {
@@ -227,6 +287,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @param mixed $data
      * @param string $class
+     * @param mixed $default
      */
     protected function getSingleInstance($data, string $class, $default = null)
     {
