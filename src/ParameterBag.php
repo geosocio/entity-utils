@@ -142,7 +142,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     public function getIntArray(string $key, array $default = null) :? array
     {
         $value = $this->get($key);
-        return is_array($value) ? array_filter($value, 'is_int') : $default;
+        return is_array($value) ? array_values(array_filter($value, 'is_int')) : $default;
     }
 
     /**
@@ -170,7 +170,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     public function getBooleanArray(string $key, array $default = null) :? array
     {
         $value = $this->get($key);
-        return is_array($value) ? array_filter($value, 'is_bool') : $default;
+        return is_array($value) ? array_values(array_filter($value, 'is_bool')) : $default;
     }
 
     /**
@@ -198,7 +198,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     public function getStringArray(string $key, array $default = null) :? array
     {
         $value = $this->get($key);
-        return is_array($value) ? array_filter($value, 'is_string') : $default;
+        return is_array($value) ? array_values(array_filter($value, 'is_string')) : $default;
     }
 
     /**
@@ -240,7 +240,12 @@ class ParameterBag implements \IteratorAggregate, \Countable
     public function getUuidArray(string $key, array $default = null) :? array
     {
         $value = $this->get($key);
-        return is_array($value) ? array_filter($value, 'uuid_is_valid') : $default;
+
+        $callback = function ($item) {
+            return is_string($item) && uuid_is_valid($item);
+        };
+
+        return is_array($value) ? array_values(array_filter($value, $callback)) : $default;
     }
 
     /**
