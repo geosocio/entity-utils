@@ -1,6 +1,6 @@
 <?php
 
-namespace GeoSocio\Tests\EntityUtils;
+namespace GeoSocio\EntityUtils;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,6 +12,9 @@ use PHPUnit\Framework\TestCase;
  */
 class ParameterBagTest extends TestCase
 {
+    /**
+     * Test All.
+     */
     public function testAll()
     {
         $data = [
@@ -21,6 +24,9 @@ class ParameterBagTest extends TestCase
         $this->assertEquals($data, $bag->all());
     }
 
+    /**
+     * Test Keys.
+     */
     public function testKeys()
     {
         $data = [
@@ -30,6 +36,9 @@ class ParameterBagTest extends TestCase
         $this->assertEquals(['key'], $bag->keys());
     }
 
+    /**
+     * Test Replace.
+     */
     public function testReplace()
     {
         $data = [
@@ -45,6 +54,9 @@ class ParameterBagTest extends TestCase
         $this->assertEquals($newData, $bag->all());
     }
 
+    /**
+     * Test Add.
+     */
     public function testAdd()
     {
         $data = [
@@ -60,6 +72,9 @@ class ParameterBagTest extends TestCase
         $this->assertEquals(array_replace($data, $newData), $bag->all());
     }
 
+    /**
+     * Test Get.
+     */
     public function testGet()
     {
         $data = [
@@ -70,6 +85,9 @@ class ParameterBagTest extends TestCase
         $this->assertEquals('default', $bag->get('nokey', 'default'));
     }
 
+    /**
+     * Test Set.
+     */
     public function testSet()
     {
         $data = [
@@ -82,6 +100,9 @@ class ParameterBagTest extends TestCase
         $this->assertEquals('value2', $bag->get('key2'));
     }
 
+    /**
+     * Test Has.
+     */
     public function testHas()
     {
         $data = [
@@ -93,6 +114,9 @@ class ParameterBagTest extends TestCase
         $this->assertFalse($bag->has('nokey'));
     }
 
+    /**
+     * Test Remove.
+     */
     public function testRemove()
     {
         $data = [
@@ -107,7 +131,10 @@ class ParameterBagTest extends TestCase
         $this->assertFalse($bag->has('key'));
     }
 
-    public function testGetInit()
+    /**
+     * Test Int.
+     */
+    public function testGetInt()
     {
         $data = [
             'number' => '12345',
@@ -123,6 +150,31 @@ class ParameterBagTest extends TestCase
         $this->assertSame(0, $bag->getInt('nokey', 0));
     }
 
+    /**
+     * Test Int.
+     */
+    public function testGetIntArray()
+    {
+        $data = [
+            'array' => [
+                12345,
+                true,
+                '12345',
+                ['array'],
+                new \stdClass(),
+            ],
+        ];
+
+        $bag = new ParameterBag($data);
+
+        $this->assertInternalType('array', $bag->getIntArray('array', []));
+        $this->assertCount(1, $bag->getIntArray('array', []));
+        $this->assertSame(12345, $bag->getIntArray('array', [])[0]);
+    }
+
+    /**
+     * Test Boolean.
+     */
     public function testGetBoolean()
     {
         $data = [
@@ -139,6 +191,31 @@ class ParameterBagTest extends TestCase
         $this->assertSame(false, $bag->getBoolean('nokey', false));
     }
 
+    /**
+     * Test Boolean.
+     */
+    public function testGetBooleanArray()
+    {
+        $data = [
+            'array' => [
+                12345,
+                true,
+                '12345',
+                ['array'],
+                new \stdClass(),
+            ],
+        ];
+
+        $bag = new ParameterBag($data);
+
+        $this->assertInternalType('array', $bag->getBooleanArray('array', []));
+        $this->assertCount(1, $bag->getBooleanArray('array', []));
+        $this->assertTrue($bag->getBooleanArray('array', [])[0]);
+    }
+
+    /**
+     * Test String.
+     */
     public function testGetString()
     {
         $data = [
@@ -155,6 +232,31 @@ class ParameterBagTest extends TestCase
         $this->assertSame('xyz', $bag->getString('nokey', 'xyz'));
     }
 
+    /**
+     * Test String.
+     */
+    public function testGetStringArray()
+    {
+        $data = [
+            'array' => [
+                12345,
+                true,
+                '12345',
+                ['array'],
+                new \stdClass(),
+            ],
+        ];
+
+        $bag = new ParameterBag($data);
+
+        $this->assertInternalType('array', $bag->getStringArray('array', []));
+        $this->assertCount(1, $bag->getStringArray('array', []));
+        $this->assertSame('12345', $bag->getStringArray('array', [])[0]);
+    }
+
+    /**
+     * Test Array.
+     */
     public function testGetArray()
     {
         $data = [
@@ -173,6 +275,9 @@ class ParameterBagTest extends TestCase
         $this->assertSame([4,5,6], $bag->getArray('nokey', [4,5,6]));
     }
 
+    /**
+     * Test UUID.
+     */
     public function testGetUuid()
     {
         $real = '5d110ca4-58f4-11e7-97a7-a45e60d54511';
@@ -189,6 +294,32 @@ class ParameterBagTest extends TestCase
         $this->assertSame($default, $bag->getUuid('nokey', $default));
     }
 
+    /**
+     * Test UUID.
+     */
+    public function testGetUuidArray()
+    {
+        $data = [
+            'array' => [
+                12345,
+                true,
+                '12345',
+                '5d110ca4-58f4-11e7-97a7-a45e60d54511',
+                ['array'],
+                new \stdClass(),
+            ],
+        ];
+
+        $bag = new ParameterBag($data);
+
+        $this->assertInternalType('array', $bag->getUuidArray('array', []));
+        $this->assertCount(1, $bag->getUuidArray('array', []));
+        $this->assertSame('5d110ca4-58f4-11e7-97a7-a45e60d54511', $bag->getUuidArray('array', [])[0]);
+    }
+
+    /**
+     * Test Iterator.
+     */
     public function testGetIterator()
     {
         $data = [
@@ -201,6 +332,9 @@ class ParameterBagTest extends TestCase
         $this->assertInstanceOf(\ArrayIterator::class, $iterator);
     }
 
+    /**
+     * Test Count.
+     */
     public function testCount()
     {
         $data = [
@@ -213,6 +347,9 @@ class ParameterBagTest extends TestCase
         $this->assertEquals(0, $bag->count());
     }
 
+    /**
+     * Test Instance.
+     */
     public function testGetInstance()
     {
         $object = new \stdClass();
@@ -232,6 +369,9 @@ class ParameterBagTest extends TestCase
         $this->assertSame($default, $bag->getInstance('nokey', \stdClass::class, $default));
     }
 
+    /**
+     * Test Collection.
+     */
     public function testGetCollection()
     {
         $array = [

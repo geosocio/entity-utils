@@ -12,7 +12,7 @@
     },
     "autoload-dev": {
       "psr-4": {
-        "GeoSocio\\EntityUtils\\Tests\\": "tests/"
+        "GeoSocio\\EntityUtils\\": "tests/"
       }
     },
     "require-dev": {
