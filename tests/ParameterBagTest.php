@@ -282,7 +282,7 @@ class ParameterBagTest extends TestCase
     {
         $real = '5d110ca4-58f4-11e7-97a7-a45e60d54511';
         $data = [
-            'uuid' => $real,
+            'uuid' => strtoupper($real),
             'string' => 'abc',
         ];
 
@@ -299,12 +299,13 @@ class ParameterBagTest extends TestCase
      */
     public function testGetUuidArray()
     {
+        $uuid = '5d110ca4-58f4-11e7-97a7-a45e60d54511';
         $data = [
             'array' => [
                 12345,
                 true,
                 '12345',
-                '5d110ca4-58f4-11e7-97a7-a45e60d54511',
+                strtoupper($uuid),
                 ['array'],
                 new \stdClass(),
             ],
@@ -315,6 +316,7 @@ class ParameterBagTest extends TestCase
         $this->assertInternalType('array', $bag->getUuidArray('array', []));
         $this->assertCount(1, $bag->getUuidArray('array', []));
         $this->assertSame('5d110ca4-58f4-11e7-97a7-a45e60d54511', $bag->getUuidArray('array', [])[0]);
+        $this->assertNull($bag->getUuidArray('nokey'));
     }
 
     /**

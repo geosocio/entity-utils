@@ -226,7 +226,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
     public function getUuid(string $key, string $default = null) :? string
     {
         $value = $this->get($key);
-        return is_string($value) && uuid_is_valid($value) ? $value : $default;
+        return is_string($value) && uuid_is_valid($value) ? strtolower($value) : $default;
     }
 
     /**
@@ -241,11 +241,19 @@ class ParameterBag implements \IteratorAggregate, \Countable
     {
         $value = $this->get($key);
 
-        $callback = function ($item) {
-            return is_string($item) && uuid_is_valid($item);
-        };
+        if (!is_array($value)) {
+            return $default;
+        }
 
-        return is_array($value) ? array_values(array_filter($value, $callback)) : $default;
+        $data = array_filter($value, Function ($item) {
+            return is_string($item) && uuid_is_valid($item);
+        });
+
+        $data = array_values($data);
+
+        return array_map(function ($item) {
+            return strtolower($item);
+        }, $data);
     }
 
     /**
