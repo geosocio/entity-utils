@@ -146,6 +146,62 @@ class ParameterBag implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Returns the parameter value only if it is numeric.
+     *
+     * @param string $key     The parameter key
+     * @param int|null    $default The default value if the parameter key does not exist
+     *
+     * @return mixed The filtered value
+     */
+    public function getNumber(string $key, $default = null)
+    {
+        $value = $this->get($key);
+        return is_numeric($value) ? $value : $default;
+    }
+
+    /**
+     * Returns the parameter value only if it is an array of numbers.
+     *
+     * @param string $key     The parameter key
+     * @param array|null $default The default value if the parameter key does not exist
+     *
+     * @return array|null The filtered value
+     */
+    public function getNumberArray(string $key, array $default = null) :? array
+    {
+        $value = $this->get($key);
+        return is_array($value) ? array_values(array_filter($value, 'is_numeric')) : $default;
+    }
+
+    /**
+     * Returns the parameter value only if it is a float.
+     *
+     * @param string $key     The parameter key
+     * @param float|null    $default The default value if the parameter key does not exist
+     *
+     * @return float|null The filtered value
+     */
+    public function getFloat(string $key, float $default = null) :? float
+    {
+        $value = $this->get($key);
+        return is_float($value) ? $value : $default;
+    }
+
+    /**
+     * Returns the parameter value only if it is an array of floats.
+     *
+     * @param string $key     The parameter key
+     * @param array|null $default The default value if the parameter key does not exist
+     *
+     * @return array|null The filtered value
+     */
+    public function getFloatArray(string $key, array $default = null) :? array
+    {
+        $value = $this->get($key);
+        return is_array($value) ? array_values(array_filter($value, 'is_float')) : $default;
+    }
+
+    /**
      * Returns the parameter value only if it is a boolean.
      *
      * @param string $key     The parameter key

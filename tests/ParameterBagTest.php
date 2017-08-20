@@ -173,6 +173,92 @@ class ParameterBagTest extends TestCase
     }
 
     /**
+     * Test Int.
+     */
+    public function testGetNumber()
+    {
+        $data = [
+            'number' => '12345',
+            'bool' => true,
+            'int' => 12345,
+        ];
+
+        $bag = new ParameterBag($data);
+
+        $this->assertSame(12345, $bag->getNumber('int', 0));
+        $this->assertSame('12345', $bag->getNumber('number', 0));
+        $this->assertSame(0, $bag->getNumber('bool', 0));
+        $this->assertSame(0, $bag->getNumber('nokey', 0));
+    }
+
+    /**
+     * Test Int.
+     */
+    public function testGetNumberArray()
+    {
+        $data = [
+            'array' => [
+                12345,
+                true,
+                '12345',
+                ['array'],
+                new \stdClass(),
+            ],
+        ];
+
+        $bag = new ParameterBag($data);
+
+        $this->assertInternalType('array', $bag->getNumberArray('array', []));
+        $this->assertCount(2, $bag->getNumberArray('array', []));
+        $this->assertSame(12345, $bag->getNumberArray('array', [])[0]);
+        $this->assertSame('12345', $bag->getNumberArray('array', [])[1]);
+    }
+
+    /**
+     * Test Int.
+     */
+    public function testGetFloat()
+    {
+        $data = [
+            'number' => '12345',
+            'bool' => true,
+            'int' => 12345,
+            'float' => 27.3
+        ];
+
+        $bag = new ParameterBag($data);
+
+        $this->assertSame(27.3, $bag->getFloat('float', 0));
+        $this->assertSame(0.0, $bag->getFloat('int', 0));
+        $this->assertSame(0.0, $bag->getFloat('number', 0));
+        $this->assertSame(0.0, $bag->getFloat('bool', 0));
+        $this->assertSame(0.0, $bag->getFloat('nokey', 0));
+    }
+
+    /**
+     * Test Int.
+     */
+    public function testGetFloatArray()
+    {
+        $data = [
+            'array' => [
+                12345,
+                27.3,
+                true,
+                '12345',
+                ['array'],
+                new \stdClass(),
+            ],
+        ];
+
+        $bag = new ParameterBag($data);
+
+        $this->assertInternalType('array', $bag->getFloatArray('array', []));
+        $this->assertCount(1, $bag->getFloatArray('array', []));
+        $this->assertSame(27.3, $bag->getFloatArray('array', [])[0]);
+    }
+
+    /**
      * Test Boolean.
      */
     public function testGetBoolean()
