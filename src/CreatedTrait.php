@@ -18,7 +18,9 @@ trait CreatedTrait
      */
     public function setCreatedValue() : self
     {
-        $this->created = new \DateTime();
+        if (!$this->created) {
+            $this->created = new \DateTime();
+        }
 
         return $this;
     }
